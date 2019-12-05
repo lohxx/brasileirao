@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "A api que serve a classificação do campeonato brasileiro",
   "main": "index.js",
+  "bin": {
+    "brasileirao": "./championship-scrapper.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lohanna",
   "license": "ISC",
   "dependencies": {
+    "commander": "^4.0.1",
     "express": "^4.17.1",
     "mysql2": "^2.0.1",
     "puppeteer": "^2.0.0",
