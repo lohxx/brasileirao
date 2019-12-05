@@ -11,7 +11,7 @@ program
     .command('init')
     .description('Extrai as informações relacionadas ao campeonato brasileiro.')
     .option('-y --year', 'ano em que o campeonato foi realizado', 2019)
-    .action(() => console.log('hello'))
+    .action(() => init())
     .parse(process.argv);
 
 
