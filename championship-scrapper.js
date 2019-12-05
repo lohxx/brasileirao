@@ -1,37 +1,50 @@
 const puppeteer = require('puppeteer');
-const { zip, from } = require('rxjs');
-const express = require('express');
+const { Classificacao } = require('./app/models');
 
-process.env.teams = [];
 
 async function init() {
     const browser = await puppeteer.launch({headless: false, devtools: true});
     const page = await browser.newPage();
-    await page.goto('https://globoesporte.globo.com/futebol/brasileirao-serie-a/');
+    await page.goto('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a');
 
-    const tablePoints = await page.$$('.tabela__pontos tbody > tr.classificacao__tabela--linha');
-    const tableClassifs = await page.$$('.tabela__equipes.tabela__equipes--com-borda tr.classificacao__tabela--linha');
+    const tablePoints = await page.$$('table.table.m-b-20 > tbody > tr.expand-trigger');
 
-    zip(from(tableClassifs), from(tablePoints))
-        .subscribe( async ([classification, statistics]) => {
-            const position = await classification.$eval('td', td => td.innerText);
-            const teamName = await classification.$eval('td:nth-child(2) > strong', strong => strong.innerText);
+    for (const tr of tablePoints) {
+        const points = await tr.$eval('th', th => th.innerText);
+        const team = await tr.$eval('td > span:last-child', td => td.innerText.split('-')[0]);
 
-            let championshipStatistic = await statistics.$$eval('td', td => {
-                var keyPositions = ['pontos', 'jogos', 'vitorias', 'derrotas', 'gp', 'gc', 'sg', '%', 'Ultimos Jogos'];
-                return td.reduce((acc, cur, index) =>  {
-                    acc[keyPositions[index]] = cur.innerText;
-                    return acc;
-                }, {});
-            });
-            console.log(process.env.teams)
-            championshipStatistic = Object.assign(championshipStatistic, {posicao: position, time: teamName});
-            //process.env.teams.push(championshipStatistic);
-    });
+        const statistics = await tr.$$eval('td', td => {
+            const infoIndex = ['jogos', 'vitorias', 'empates', 'derrotas', 'gp', 'gc', 'sg', 'ca', 'cv'];
+            const data = td.slice(1, infoIndex.length+1);
 
-    console.log(process.env.teams);
+            return data
+                .reduce((acc, cur, index) =>  {
+                acc[infoIndex[index]] = cur.innerText;
+                        return acc;
+            }, {});
+        });
+
+
+        statistics['pontos'] = points;
+        try {
+            const teamAlreadyExists = await Classificacao.findAll({
+                where: {time: team, ano: 2019}});
+
+            if(teamAlreadyExists.length) {
+                Classificacao.update(statistics, {where: {time: team, ano: 2019}});
+                console.log(`Atualizou a classificação do time: ${team}`);
+            }
+            else{
+                statistics['ano'] = 2019;
+                statistics['time'] = team;
+                Classificacao.create(statistics);
+                console.log(`Salvou o time: ${team}`);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
 
 
 init();
-
