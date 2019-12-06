@@ -1,26 +1,29 @@
 #!/usr/bin/env node
-
-
-const commander = require('commander');
 const puppeteer = require('puppeteer');
+const moment = require('momen');
+
 const { Classificacao } = require('./app/models');
-
-const program = new commander.Command();
-
-program
-    .command('init')
-    .description('Extrai as informações relacionadas ao campeonato brasileiro.')
-    .option('-y --year', 'ano em que o campeonato foi realizado', 2019)
-    .action(() => init())
-    .parse(process.argv);
 
 
 async function init() {
+    let year = moment().get('year');
+
+    try {
+        year = process.argv.slice(2)[0].replace(/[^\d]+/, '');
+    } catch (error) {
+    }
+
     const browser = await puppeteer.launch({headless: false, devtools: true});
     const page = await browser.newPage();
-    await page.goto(`https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${program.year}`);
+    await page.goto(`https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${year}`);
 
-    const tablePoints = await page.$$('table.table.m-b-20 > tbody > tr.expand-trigger');
+    let dataSelector = `table.table.m-b-20 > tbody > tr`;
+
+    if(year >= year - 1) {
+        dataSelector = dataSelector + '.expand-trigger'
+    }
+
+    const tablePoints = await page.$$(dataSelector);
 
     for (const tr of tablePoints) {
         const points = await tr.$eval('th', th => th.innerText);
@@ -37,18 +40,18 @@ async function init() {
             }, {});
         });
 
-
         statistics['pontos'] = points;
+
         try {
             const teamAlreadyExists = await Classificacao.findAll({
-                where: {time: team, ano: program.year}});
+                where: {time: team, ano: year}});
 
             if(teamAlreadyExists.length) {
-                Classificacao.update(statistics, {where: {time: team, ano: program.year}});
+                Classificacao.update(statistics, {where: {time: team, ano: year}});
                 console.log(`Atualizou a classificação do time: ${team}`);
             }
             else{
-                statistics['ano'] = program.year;
+                statistics['ano'] = year;
                 statistics['time'] = team;
                 Classificacao.create(statistics);
                 console.log(`Salvou o time: ${team}`);
@@ -58,3 +61,5 @@ async function init() {
         }
     }
 }
+
+init();
