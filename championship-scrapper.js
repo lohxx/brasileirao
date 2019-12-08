@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 const puppeteer = require('puppeteer');
-const moment = require('momen');
+const moment = require('moment');
 
 const { Classificacao } = require('./app/models');
 
 
-async function init() {
+async function getClassificacao() {
     let year = moment().get('year');
 
     try {
@@ -62,4 +62,4 @@ async function init() {
     }
 }
 
-init();
+getClassificacao();
