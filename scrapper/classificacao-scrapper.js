@@ -62,4 +62,6 @@ async function extractClassifications() {
     }
 }
 
+extractClassifications();
+
 module.exports = extractClassifications;

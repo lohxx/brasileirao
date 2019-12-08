@@ -43,5 +43,7 @@ async function extractRouds() {
     }
 }
 
+extractRouds()
+
 
 module.exports = extractRouds;
