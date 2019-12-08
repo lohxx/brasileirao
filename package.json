@@ -16,11 +16,15 @@
     "express": "^4.17.1",
     "moment": "^2.24.0",
     "mysql2": "^2.0.1",
+    "node-cron": "^2.0.3",
     "puppeteer": "^2.0.0",
     "rxjs": "^6.5.3",
     "sequelize": "^5.21.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/register": "^7.7.4",
     "sequelize-cli": "^5.5.1"
   }
 }

@@ -1,17 +1,18 @@
-const puppeteer = require('puppeteer');
 const moment = require('moment');
+const puppeteer = require('puppeteer');
+const { Rodada } = require('../app/models');
 
-const { Rodada } = require('./app/models');
 
+async function extractRouds() {
 
-async function getRodadas(year=2019) {
+    const currentYear = moment().get('year');
     const browser = await puppeteer.launch({headless: false, devtools: true});
     const page = await browser.newPage();
-    await page.goto(`https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${year}`);
+    await page.goto(`https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${currentYear}`);
 
     const selector = await page.$(`aside.aside-rodadas > div.swiper-wrapper > div.swiper-slide.active.swiper-slide-active`);
 
-    const rodadaNumero =  await selector.$eval(
+    const roundNumber =  await selector.$eval(
         'header.aside-header > h3', 
         header => header.innerText.replace(/[^\d]+/, '')
     );
@@ -31,7 +32,7 @@ async function getRodadas(year=2019) {
         try {
             Rodada.create({
                 casa: timeCasa,
-                rodada: rodadaNumero,
+                rodada: roundNumber,
                 visitante: timeVisitante,
                 data: new Date(jogoDataHora),
             });
@@ -42,4 +43,5 @@ async function getRodadas(year=2019) {
     }
 }
 
-getRodadas();
+
+module.exports = extractRouds;

@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-const puppeteer = require('puppeteer');
 const moment = require('moment');
+const puppeteer = require('puppeteer');
+const { Classificacao } = require('../app/models');
 
-const { Classificacao } = require('./app/models');
 
-
-async function getClassificacao() {
+async function extractClassifications() {
     let year = moment().get('year');
 
     try {
         year = process.argv.slice(2)[0].replace(/[^\d]+/, '');
     } catch (error) {
+        console.error(error);
     }
 
     const browser = await puppeteer.launch({headless: false, devtools: true});
@@ -62,4 +62,4 @@ async function getClassificacao() {
     }
 }
 
-getClassificacao();
+module.exports = extractClassifications;
