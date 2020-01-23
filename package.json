@@ -26,6 +26,7 @@
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "@babel/register": "^7.7.4",
+    "@types/puppeteer": "^2.0.0",
     "sequelize-cli": "^5.5.1"
   }
 }
