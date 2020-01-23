@@ -25,6 +25,10 @@ export class ClassificacaoCrawler {
         }
     }
 
+    /**
+     * Inicializa a extração do site da CBF
+     * @returns Promise
+     */
     async init(): Promise<object[]> {
         const browser = await puppeteer.launch(this.launchOptions);
         const page = await browser.newPage();
@@ -35,7 +39,13 @@ export class ClassificacaoCrawler {
 
         return championshipData;
     }
-
+    
+    /**
+     * Extrai e junta as informações de cada time participante
+     * do campeonato brasileiro.
+     * @param  {ElementHandle[]} tableRows
+     * @returns Promise
+     */
     async extractClassifications(tableRows: ElementHandle[]): Promise<object[]> {
         const data = [];
 
@@ -53,6 +63,12 @@ export class ClassificacaoCrawler {
         return data;
     }
 
+    
+    /**
+     * Extrai as estatisticas de cada time participando do brasileirão.
+     * @param  {ElementHandle} tableRow
+     * @returns Promise
+     */
     async extractStatistics(tableRow: ElementHandle): Promise<object> {
         const statistics = await tableRow.$$eval('td', td => {
             const infoIndex = ['jogos', 'vitorias', 'empates', 'derrotas', 'gp', 'gc', 'sg', 'ca', 'cv'];
