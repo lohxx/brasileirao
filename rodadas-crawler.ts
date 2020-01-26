@@ -1,12 +1,6 @@
 import * as puppeteer from 'puppeteer';
 
-interface Round {
-    hora: string,
-    rodada: number,
-    endereco: string,
-    timeCasa: string,
-    timeVisitante: string
-}
+import { Round } from './types/types';
 
 export class RodadasCrawler {
     url: string;

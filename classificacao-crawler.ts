@@ -1,24 +1,7 @@
 import * as moment from 'moment';
 import { ElementHandle, Browser } from 'puppeteer';
 
-interface TeamStatistics {
-    sg: string,
-    gp: string,
-    gc: string,
-    ca: string,
-    cv: string,
-    jogos: string,
-    empates: string,
-    vitorias: string,
-    derrotas: string
-}
-
-interface TeamClassification {
-    time: string,
-    pontos: string
-}
-
-type ChampionshipData = (TeamClassification | TeamStatistics)[];
+import { ChampionshipData, TeamStatistics } from './types/types';
 
 
 export class ClassificacaoCrawler {
