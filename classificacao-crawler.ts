@@ -1,6 +1,5 @@
 import * as moment from 'moment';
-import * as puppeteer from 'puppeteer';
-import { ElementHandle } from 'puppeteer';
+import { ElementHandle, Browser } from 'puppeteer';
 
 interface TeamStatistics {
     sg: string,
@@ -26,7 +25,7 @@ export class ClassificacaoCrawler {
     site: string;
     tableRowsSelector = `table.m-b-20 > tbody > tr`;
     
-    constructor(private year: number, private browser: puppeteer.Browser) {
+    constructor(private year: number, private browser: Browser) {
         this.site = `https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${this.year}`;
         this.chooseRowSelector();
     }
