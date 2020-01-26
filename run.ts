@@ -1,5 +1,7 @@
 import * as moment from 'moment';
 
+
+import { RodadasCrawler } from './rodadas-scrapper';
 import { ClassificacaoCrawler } from './classificacao-scrapper';
 
 

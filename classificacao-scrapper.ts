@@ -2,31 +2,17 @@ import * as moment from 'moment';
 import * as puppeteer from 'puppeteer';
 import { ElementHandle } from 'puppeteer';
 
-interface TeamStatistics {
-    sg: string,
-    gp: string,
-    gc: string,
-    ca: string,
-    cv: string,
-    jogos: string,
-    empates: string,
-    vitorias: string,
-    derrotas: string
-}
-
-interface TeamClassification {
-    time: string,
-    pontos: string
-}
-
-type ChampionshipData = (TeamClassification | TeamStatistics)[];
-
 
 export class ClassificacaoCrawler {
     site: string;
+    year: number;
+    launchOptions: object;
+
     tableRowsSelector = `table.m-b-20 > tbody > tr`;
     
-    constructor(private year: number, private browser: puppeteer.Browser) {
+    constructor(year: number, launchOptions: object = {}) {
+        this.year = year;
+        this.launchOptions = launchOptions;
         this.site = `https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${this.year}`;
         this.chooseRowSelector();
     }
@@ -43,8 +29,9 @@ export class ClassificacaoCrawler {
      * Inicializa a extração do site da CBF
      * @returns Promise
      */
-    async init(): Promise<ChampionshipData> {;
-        const page = await this.browser.newPage();
+    async init(): Promise<object[]> {
+        const browser = await puppeteer.launch(this.launchOptions);
+        const page = await browser.newPage();
         await page.goto(this.site);
         const rows = await page.$$(this.tableRowsSelector);
 
@@ -59,16 +46,15 @@ export class ClassificacaoCrawler {
      * @param  {ElementHandle[]} tableRows
      * @returns Promise
      */
-    async extractClassifications(tableRows: ElementHandle[]): Promise<ChampionshipData> {
-        const data: ChampionshipData = [];
+    async extractClassifications(tableRows: ElementHandle[]): Promise<object[]> {
+        const data = [];
 
         for(const tableRow of tableRows) {
             try {
                 const points: string = await tableRow.$eval('th', (th: any) => th.innerText);
                 const team: string = await tableRow.$eval('td > span:last-child', (td: any) => td.innerText.split('-')[0]);
                 const statistics = await this.extractStatistics(tableRow);
-                const classificacao: TeamClassification = {time: team, pontos: points};
-                data.push({...classificacao, ...statistics});
+                data.push({time: team, pontos: points, ...statistics});
             } catch (error) {
                 continue
             }
@@ -83,7 +69,7 @@ export class ClassificacaoCrawler {
      * @param  {ElementHandle} tableRow
      * @returns Promise
      */
-    async extractStatistics(tableRow: ElementHandle): Promise<TeamStatistics> {
+    async extractStatistics(tableRow: ElementHandle): Promise<object> {
         const statistics = await tableRow.$$eval('td', td => {
             const infoIndex = ['jogos', 'vitorias', 'empates', 'derrotas', 'gp', 'gc', 'sg', 'ca', 'cv'];
             const data = td.slice(1, infoIndex.length+1);
