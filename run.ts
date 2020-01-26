@@ -6,8 +6,13 @@ import { ClassificacaoCrawler } from './classificacao-crawler';
 
 
 async function init() {
-    const pupuppeteer = await puppeteer.launch();
+    const pupuppeteer = await puppeteer.launch({headless: false});
     const currentYear =  moment().get('year');
     const classificacaoCrawler = new ClassificacaoCrawler(currentYear, pupuppeteer);
     const rodadasCrawler = new RodadasCrawler(currentYear, pupuppeteer);
+
+    const t = await rodadasCrawler.initRoundExtraction();
+    console.log(t);
 }
+
+init().then();

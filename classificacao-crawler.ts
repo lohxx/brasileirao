@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { ElementHandle, Browser } from 'puppeteer';
 
-import { ChampionshipData, TeamStatistics } from './types/types';
+import { ChampionshipData, TeamStatistics, TeamClassification } from './types/types';
 
 
 export class ClassificacaoCrawler {
@@ -59,7 +59,6 @@ export class ClassificacaoCrawler {
         return data;
     }
 
-    
     /**
      * Extrai as estatisticas de cada time participando do brasileirão.
      * @param  {ElementHandle} tableRow
