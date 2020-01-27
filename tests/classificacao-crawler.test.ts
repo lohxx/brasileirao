@@ -1,5 +1,6 @@
-import { TeamClassification } from './../types/types';
 import * as puppeteer from 'puppeteer';
+
+import { TeamClassification } from './../types/types';
 import { ClassificacaoCrawler } from '../classificacao-crawler';
 
 
