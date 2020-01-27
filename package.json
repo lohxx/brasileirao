@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Lohanna",
   "license": "ISC",
@@ -26,7 +26,11 @@
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "@babel/register": "^7.7.4",
+    "@types/jest": "^24.9.1",
     "@types/puppeteer": "^2.0.0",
-    "sequelize-cli": "^5.5.1"
+    "jest": "^25.1.0",
+    "sequelize-cli": "^5.5.1",
+    "ts-jest": "^25.0.0",
+    "typescript": "^3.7.5"
   }
 }

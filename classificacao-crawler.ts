@@ -17,7 +17,7 @@ export class ClassificacaoCrawler {
         const now = moment();
 
         if (this.year != now.get('year')) {
-            this.tableRowsSelector = `table.m-b-20.tabela-expandir > tbody > tr.expand-trigger`;
+            this.tableRowsSelector = `table.m-b-20.tabela-expandir > tbody > tr`;
         }
     }
 
@@ -49,7 +49,7 @@ export class ClassificacaoCrawler {
                 const points: string = await tableRow.$eval('th', (th: any) => th.innerText);
                 const team: string = await tableRow.$eval('td > span:last-child', (td: any) => td.innerText.split('-')[0]);
                 const statistics = await this.extractStatistics(tableRow);
-                const classificacao: TeamClassification = {time: team, pontos: points};
+                const classificacao: TeamClassification = {time: team.trim(), pontos: points};
                 data.push({...classificacao, ...statistics});
             } catch (error) {
                 continue
