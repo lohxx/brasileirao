@@ -41,9 +41,13 @@ async function createCSVOutput(data: any, year: number): Promise<void> {
         ]
     });
 
-    await csvWriter.writeRecords(data);
+    try {
+        await csvWriter.writeRecords(data);
+        console.log(`As classificações foram exportadas para o arquivo: ${program.path}`);
+    } catch (error) {
+        console.error(error);
+    }
 
-    console.log(`As classificações foram exportadas para o arquivo: ${program.path}`);
 }
 
 function createJSONOutput(data: any, year: number): void {
