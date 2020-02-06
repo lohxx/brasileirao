@@ -2,10 +2,8 @@ import * as moment from 'moment';
 import * as program from 'commander';
 import * as puppeteer from 'puppeteer';
 
-import { createObjectCsvWriter } from 'csv-writer';
-
-import { Round, ChampionshipData } from './types/types';
 import { RodadasCrawler } from './rodadas-crawler';
+import { ExportCsv, ExportJson } from './export';
 import { ClassificacaoCrawler } from './classificacao-crawler';
 
 
@@ -20,52 +18,35 @@ program
 
 program.parse(process.argv);
 
-console.log(program)
-console.log(`${program.outDir ? program.outDir : __dirname}/brasileirao-${program.year}.csv`)
-
-async function createCSVOutput(data: any, year: number): Promise<void> {
-    const path = `${program.path ? program.path : __dirname}/brasileirao-${year}.csv`;
-
-    const csvWriter = createObjectCsvWriter({
-        path: path,
-        header: [
-            {id: 'gp',title: 'gp'},
-            {id: 'gc', title: 'gc'},
-            {id: 'ca', title: 'ca'},
-            {id: 'sg', title: 'sg'},
-            {id: 'cv', title: 'cv'},
-            {id: 'jogos', title: 'jogos'},
-            {id: 'empates', title: 'empates'},
-            {id: 'vitorias', title: 'vitorias'},
-            {id: 'derrotas', title: 'derrotas'}
-        ]
-    });
-
-    try {
-        await csvWriter.writeRecords(data);
-        console.log(`As classificações foram exportadas para o arquivo: ${program.path}`);
-    } catch (error) {
-        console.error(error);
-    }
-
-}
-
-function createJSONOutput(data: any, year: number): void {
-    const filePath = `${__dirname}/brasileiro-${year}.json`
-}
 
 async function init(): Promise<void> {
-    const pupuppeteer = await puppeteer.launch({headless: false, devtools: true});
-    const currentYear =  moment().get('year');
-    const classificacaoCrawler = new ClassificacaoCrawler(currentYear, pupuppeteer);
-    
+    const browser = await puppeteer.launch({headless: true, devtools: true});
+    const extractYear =  program.year ? program.year : moment().get('year');
+    const classificacaoCrawler = new ClassificacaoCrawler(extractYear, browser);
+
     let roundMatches = null;
     let rodadasCrawler = null;
-    if(program.extractRounds) {
-        rodadasCrawler = new RodadasCrawler(currentYear, pupuppeteer);
-        roundMatches = await rodadasCrawler.initRoundExtraction();
+
+    try {
+        const teamsClassifications = await classificacaoCrawler.init();
+        if(program.extractRounds) {
+            rodadasCrawler = new RodadasCrawler(extractYear, browser);
+            roundMatches = await rodadasCrawler.initRoundExtraction();
+        }
+
+        const exportJsonService = new ExportJson();
+        const exportCsvService = new ExportCsv();
+
+    } catch (error) {
+        browser.close();
     }
-
-    const teamsClassifications = await classificacaoCrawler.init();
-
 }
+
+
+init()
+    .then(
+        success => {},
+        error => {
+            console.error(error);
+        }
+    );

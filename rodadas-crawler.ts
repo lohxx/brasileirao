@@ -41,6 +41,8 @@ export class RodadasCrawler {
             });
         }
 
+        await this.browser.close();
+
         return roundMatches;
     }
 }

@@ -31,6 +31,8 @@ export class ClassificacaoCrawler {
         const rows = await page.$$(this.tableRowsSelector);
 
         const championshipData = await this.extractClassifications(rows);
+        
+        await this.browser.close();
 
         return championshipData;
     }
