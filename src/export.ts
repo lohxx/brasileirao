@@ -4,17 +4,17 @@ import { createObjectCsvWriter } from 'csv-writer';
 
 
 interface Export {
-    save(): Promise<void>
+    save(directory: string, data: any, year: number): Promise<void>
 }
 
 export class ExportJson implements Export {
-    constructor(public directory: string, public data: any, public year: number) {}
+    constructor() {}
 
-    async save(): Promise<void> {
-        const path = `${this.directory}/brasileirao-${this.year}.json`;
+    async save(directory: string, data: any, year: number): Promise<void> {
+        const path = `${directory}/brasileirao-${year}.json`;
 
         try {
-            fs.watchFile(path, this.data);
+            fs.writeFile(path, JSON.stringify(data), () => {});
             console.log(`As classificações foram exportadas para o arquivo: ${path}`);
         } catch (error) {
             console.error(error);
@@ -23,10 +23,12 @@ export class ExportJson implements Export {
 }
 
 export class ExportCsv implements Export {
-    constructor(public directory: string, public data: any, public year: number) {}
+    constructor() {}
 
-    async save(): Promise<void> {
-        const path = `${this.directory}/brasileirao-${this.year}.csv`;
+    async save(directory: string, data: any, year: number): Promise<void> {
+        const path = `${directory}/brasileirao-${year}.csv`;
+
+        console.log(path);
 
         const csvWriter = createObjectCsvWriter({
             path: path,
@@ -45,7 +47,7 @@ export class ExportCsv implements Export {
         });
     
         try {
-            await csvWriter.writeRecords(this.data);
+            await csvWriter.writeRecords(data);
             console.log(`As classificações foram exportadas para o arquivo: ${path}`);
         } catch (error) {
             console.error(error);

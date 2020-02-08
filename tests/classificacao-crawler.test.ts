@@ -1,7 +1,7 @@
 import * as puppeteer from 'puppeteer';
 
 import { TeamClassification } from './../types/types';
-import { ClassificacaoCrawler } from '../classificacao-crawler';
+import { ClassificacaoCrawler } from '../src/classificacao-crawler';
 
 
 describe('testes basicos', () => {

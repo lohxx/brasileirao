@@ -4,5 +4,11 @@
     "module": "commonjs",
     "strict": true,
     "outDir": "dist"            
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "tests/"
+  ]
 }
