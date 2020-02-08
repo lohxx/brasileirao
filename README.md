@@ -9,7 +9,7 @@ Options:
 
   -y, --year <int>     Ano em que ocorreu o campeonato 
   
-  -d, --out-dir <str>  Diretorio onde o arquivo vai ser salvo (default: "/home/lohanna/projetos/brasileirao-tabela/brasileirao-api") 
+  -d, --out-dir <str>  Diretorio onde o arquivo vai ser salvo (default: diretorio de trabalho atual) 
   
   --extract-rounds     Extrai as rodadas 
   
