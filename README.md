@@ -7,7 +7,7 @@ Usage: cbr-crawler [options]
 
 Options:
 
-  -y, --year <int>     Ano em que ocorreu o campeonato 
+  -y, --year <int>     Ano em que ocorreu o campeonato (default: ano corrente)
   
   -d, --out-dir <str>  Diretorio onde o arquivo vai ser salvo (default: diretorio de trabalho atual) 
   
