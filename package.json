@@ -16,6 +16,7 @@
     "commander": "^4.1.0",
     "csv-writer": "^1.6.0",
     "moment": "^2.24.0",
+    "ora": "^4.0.3",
     "puppeteer": "^2.0.0"
   },
   "devDependencies": {

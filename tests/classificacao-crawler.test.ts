@@ -4,7 +4,7 @@ import { TeamClassification } from './../types/types';
 import { ClassificacaoCrawler } from '../src/classificacao-crawler';
 
 
-describe('testes basicos', () => {
+describe('Extração da classificação', () => {
     beforeEach(() => {
         jest.setTimeout(10000);
     });
@@ -12,7 +12,7 @@ describe('testes basicos', () => {
     test('Afirma o campeão do campeonato de 2019', async () => {
         const browser = await puppeteer.launch();
         const crawler = new ClassificacaoCrawler(2019, browser);
-        const championshipWinner = await crawler.init();
+        const championshipWinner = await crawler.init()[0];
 
         const flamengo = { 
             time: 'Flamengo',
@@ -28,7 +28,7 @@ describe('testes basicos', () => {
             cv: '3', 
         };
 
-        expect(championshipWinner[0]).toEqual(flamengo);
+        expect(championshipWinner).toEqual(flamengo);
         browser.close();
     });
 
