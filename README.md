@@ -1,7 +1,11 @@
 # brasileirao-api
 Api que fornece dados sobre a classificação dos clubes que disputam a serie A do brasileirão
 
-# Como usar
+## Como instalar
+- Clone esse repositorio
+- Dentro do diretorio criado com o clone desse repositorio, rode o comando: `npm install`
+
+## Como usar
 
 Usage: cbr-crawler [options]
 
