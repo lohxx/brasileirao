@@ -9,6 +9,10 @@ export class RodadasCrawler {
         this.url = `https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${year}`;
     }
 
+    /**
+     * Inicia a extração das rodadas.
+     * @returns Promise
+     */
     async init(): Promise<Round[]> {
         const page = await this.browser.newPage();
         await page.goto(this.url);
@@ -24,6 +28,12 @@ export class RodadasCrawler {
         return rodadas;
     }
 
+    /**
+     * Extrai as informações sobre as rodadas.
+     * @param  {puppeteer.ElementHandle|null} div
+     * @param  {puppeteer.ElementHandle[]|undefined=[]} matches
+     * @returns Promise
+     */
     async extractRounds(div: puppeteer.ElementHandle | null, matches: puppeteer.ElementHandle[] | undefined = []): Promise<Round[]> {
         const roundMatches: Round[] = [];
 
