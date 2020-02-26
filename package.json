@@ -4,10 +4,10 @@
   "description": "A api que serve a classificação do campeonato brasileiro",
   "main": "index.js",
   "bin": {
-    "brasileirao": "./championship-scrapper.js"
+    "brasileirao": "./dist/src/run.js"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node dist/run.js",
     "test": "jest"
   },
   "author": "Lohanna",

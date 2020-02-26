@@ -9,19 +9,26 @@ export class RodadasCrawler {
         this.url = `https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${year}`;
     }
 
-    async initRoundExtraction(): Promise<any> {
+    async init(): Promise<Round[]> {
         const page = await this.browser.newPage();
         await page.goto(this.url);
-        const div = await page.$('aside.aside-rodadas > div.swiper-wrapper > div.swiper-slide.active.swiper-slide-active');
-        const roundMatches = await div?.$$('div.aside-content > ul > li > div');
-        return this.extractRounds(div, roundMatches);
+        let rodadas: Round[] = [];
+
+        const matches = await page.$$('aside.aside-rodadas > div.swiper-wrapper > div.swiper-slide[data-slide-index]');
+        for (const match of matches) {
+            const roundMatches = await match?.$$('div.aside-content > ul > li > div');
+            const roundInfos = await this.extractRounds(match, roundMatches); 
+            rodadas = rodadas.concat(roundInfos);
+        }
+
+        return rodadas;
     }
-    
+
     async extractRounds(div: puppeteer.ElementHandle | null, matches: puppeteer.ElementHandle[] | undefined = []): Promise<Round[]> {
         const roundMatches: Round[] = [];
 
         const roundNumber = await div?.$eval('header.aside-header > h3', (header: any) => header.innerText.replace(/[^\d]+/, ''));
-        
+
         for(const match of matches) {
             const houseTeam = await match.$eval('div.clearfix > a > div.time.pull-left > img', (team: any) => team.title);
             const visitantTeam = await match.$eval('div.clearfix > a div.pull-right > img', (team: any) => team.title);
@@ -40,8 +47,6 @@ export class RodadasCrawler {
                 timeVisitante: visitantTeam,
             });
         }
-
-        await this.browser.close();
 
         return roundMatches;
     }
