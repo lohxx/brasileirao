@@ -5,8 +5,13 @@ import { Round } from '../types/types';
 export class RodadasCrawler {
     url: string;
 
+    /**
+     * Inicializa a instancia do crawler das rodadas
+     * @param  {number} private year - ano de realização do campeonato.
+     * @param  {puppeteer.Browser} private browser
+     */
     constructor(private year: number, private browser: puppeteer.Browser) { 
-        this.url = `https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${year}`;
+        this.url = `https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${this.year}`;
     }
 
     /**

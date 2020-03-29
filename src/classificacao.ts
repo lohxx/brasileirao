@@ -67,9 +67,9 @@ export class ClassificacaoCrawler {
     async extractStatistics(tableRow: ElementHandle): Promise<TeamStatistics> {
         const statistics = await tableRow.$$eval('td', td => {
             const infoIndex = ['jogos', 'vitorias', 'empates', 'derrotas', 'gp', 'gc', 'sg', 'ca', 'cv'];
-            const data = td.slice(1, infoIndex.length+1);
+            const data: Element[] = td.slice(1, infoIndex.length+1);
 
-            return data.reduce((statisticTeam: any, statistic:any, index: number) =>  {
+            return data.reduce((statisticTeam: any, statistic: any, index: number) =>  {
                 statisticTeam[infoIndex[index]] = statistic.innerText;
                 return statisticTeam;
             }, {});

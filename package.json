@@ -7,7 +7,7 @@
     "brasileirao": "./dist/src/run.js"
   },
   "scripts": {
-    "start": "node dist/run.js",
+    "start": "node ./dist/src/run.js",
     "test": "jest"
   },
   "author": "Lohanna",
@@ -17,7 +17,8 @@
     "csv-writer": "^1.6.0",
     "moment": "^2.24.0",
     "ora": "^4.0.3",
-    "puppeteer": "^2.0.0"
+    "puppeteer": "^2.0.0",
+    "xlsx": "^0.15.5"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",

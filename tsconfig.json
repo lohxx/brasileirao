@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES6",
     "module": "commonjs",
     "strict": true,
-    "outDir": "dist"            
+    "outDir": "dist",
+    "noImplicitReturns": true,
+    "noUnusedParameters": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": [
-    "node_modules",
+    "node_modules/",
     "**/*.spec.ts",
     "tests/"
   ]

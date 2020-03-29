@@ -7,13 +7,11 @@ import * as puppeteer from 'puppeteer';
 
 import { cwd } from 'process';
 import { RodadasCrawler } from './rodadas';
-import { ExportCsv, ExportJson } from './export';
 import { ClassificacaoCrawler } from './classificacao';
 
 
-
 program
-    .name('cbr-crawler')
+    .name('brasileirao-api')
     .option('-y, --year <int>', 'Ano em que ocorreu o campeonato', (year) => year, moment().get('year'))
     .option('-d, --out-dir <str>', 'Diretorio onde o arquivo vai ser salvo', (dir) => dir, cwd())
     .option('--extract-rounds', 'Extrai as rodadas')
@@ -22,7 +20,7 @@ program
     .parse(process.argv);
 
 
-async function init(): Promise<void> {
+async function init(): Promise<null> {
     const browser = await puppeteer.launch({headless: false, devtools: true});
 
     const rodadasCrawler = new RodadasCrawler(program.year, browser);
@@ -37,15 +35,15 @@ async function init(): Promise<void> {
         // para o spinner depois que os dados foram retornados
         spinner.stop();
 
-        const exportJsonService = new ExportJson();
-        const exportCsvService = new ExportCsv();
+        //const exportJsonService = new ExportJson();
+        //const exportCsvService = new ExportCsv();
 
         if(program.saveCsv) {
-            exportCsvService.save(program.outDir, teamsClassifications, program.year);
+            //exportCsvService.save(program.outDir, teamsClassifications, program.year);
         }
 
         else if (program.saveJson) {
-            exportJsonService.save(program.outDir, teamsClassifications, program.year);
+            //exportJsonService.save(program.outDir, teamsClassifications, program.year);
         }
         else {
             console.log('Não foi selecionado nenhuma das opções para exportar os dados, vai ser mostrado no console');
@@ -60,11 +58,12 @@ async function init(): Promise<void> {
     } catch (error) {
         browser.close();
     }
+
+    return null
 }
 
 
 init()
     .then(
-        success => { },
-        error => { console.error(error) }
-    );
+        () => { },
+        error => { console.error(error) });
