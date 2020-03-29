@@ -56,6 +56,8 @@ export class ClassificacaoCrawler {
             }
         }
 
+        console.log(data);
+
         return data;
     }
 

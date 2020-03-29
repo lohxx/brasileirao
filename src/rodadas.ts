@@ -45,13 +45,16 @@ export class RodadasCrawler {
         const roundNumber = await div?.$eval('header.aside-header > h3', (header: any) => header.innerText.replace(/[^\d]+/, ''));
 
         for(const match of matches) {
-            const houseTeam = await match.$eval('div.clearfix > a > div.time.pull-left > img', (team: any) => team.title);
-            const visitantTeam = await match.$eval('div.clearfix > a div.pull-right > img', (team: any) => team.title);
+            const houseTeam = await match.$eval('div.clearfix > a > div.time.pull-left > img', (team: any) => team?.title);
+            const visitantTeam = await match.$eval('div.clearfix > a div.pull-right > img', (team: any) => team?.title);
             const [matchAddress, matchDate] = await match.$$eval('span.partida-desc', (spans: any) => {
-                return [
-                    spans[1].innerText,
-                    spans[0].innerText.match(/(\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2})/)[0]
-                ];
+                var matchDate = spans[0].innerText;
+                var matchRegexDate = matchDate.match(/(\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2})/); 
+                if(matchRegexDate) {
+                    matchDate = matchRegexDate[0];
+                }
+
+                return [spans[1].innerText, matchDate]
             });
 
             roundMatches.push({

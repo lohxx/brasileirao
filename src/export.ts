@@ -4,13 +4,13 @@ import * as path from 'path';
 import { createObjectCsvWriter } from 'csv-writer';
 
 
+export class Export {
+    currentDir = process.env.PWD;
 
-class Export {
-    constructor(private directory: string, private data: any,  private year: number) {}
+    constructor(private data: any,  private year: number) {}
 
     async saveToJSON(): Promise<void> {
-        const dir = path.parse(this.directory).dir;
-        const path2 = `${dir}/brasileirao-${this.year}.json`;
+        const path2 = `${this.currentDir}/brasileirao-${this.year}.json`;
 
         try {
             fs.writeFile(path2, JSON.stringify(this.data), () => {});
@@ -20,9 +20,8 @@ class Export {
         }
     }
 
-    async saveToCSV(): Promise<object> {
-        const dir = path.parse(this.directory).dir;
-        const path2 = `${dir}/brasileirao-${this.year}.csv`;
+    async saveToCSV(): Promise<object | undefined> {
+        const path2 = `${this.currentDir}/brasileirao-${this.year}.csv`;
 
         const csvWriter = createObjectCsvWriter({
             path: path2,
@@ -47,10 +46,11 @@ class Export {
             console.error(error);
         }
 
-	return {};
+	    return {};
     }
 
     saveToExcel(): void {
+
     }
 
 }

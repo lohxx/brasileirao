@@ -8,12 +8,12 @@ import * as puppeteer from 'puppeteer';
 import { cwd } from 'process';
 import { RodadasCrawler } from './rodadas';
 import { ClassificacaoCrawler } from './classificacao';
+import { Export } from './export';
 
 
 program
     .name('brasileirao-api')
     .option('-y, --year <int>', 'Ano em que ocorreu o campeonato', (year) => year, moment().get('year'))
-    .option('-d, --out-dir <str>', 'Diretorio onde o arquivo vai ser salvo', (dir) => dir, cwd())
     .option('--extract-rounds', 'Extrai as rodadas')
     .option('--save-csv', 'Salva a saida para um arquivo CSV')
     .option('--save-json', 'Salvar a saida em um arquivo JSON')
@@ -35,16 +35,16 @@ async function init(): Promise<null> {
         // para o spinner depois que os dados foram retornados
         spinner.stop();
 
-        //const exportJsonService = new ExportJson();
-        //const exportCsvService = new ExportCsv();
+        const exportData = new Export(teamsClassifications, program.year);
 
         if(program.saveCsv) {
-            //exportCsvService.save(program.outDir, teamsClassifications, program.year);
+            exportData.saveToCSV();
         }
 
         else if (program.saveJson) {
-            //exportJsonService.save(program.outDir, teamsClassifications, program.year);
+            exportData.saveToJSON();
         }
+
         else {
             console.log('Não foi selecionado nenhuma das opções para exportar os dados, vai ser mostrado no console');
             console.log()
