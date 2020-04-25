@@ -11,8 +11,13 @@ Usage: brasileirao [options]
 
 Options:  
   -y, --year <int>  Ano em que ocorreu o campeonato (default: ano corrente)  
+  
   --extract-rounds  Extrai as rodadas  
+  
   --save-csv        Salva a saida para um arquivo CSV  
+  
   --save-json       Salva a saida em um arquivo JSON  
+  
   --save-excel      Salva a saida em um arquivo Excel  
+  
   -h, --help        output usage information  
