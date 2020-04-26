@@ -81,9 +81,13 @@ export class Export {
         const workBook = new xl.Workbook();
         const rodadasSheet = workBook.addWorksheet(`Rodadas`);
         const classificacaoSheet = workBook.addWorksheet(`Classificações`);
-
+        const path = `${this.currentDir}/brasileirao-${this.year}.xlsx`;
         this.insertRows(this.data['rodadas'], rodadasSheet, Object.keys(this.data['rodadas'][0]));
         this.insertRows(this.data['classificacoes'], classificacaoSheet, Object.keys(this.data['classificacoes'][0]));
-        workBook.write(`${this.currentDir}/brasileirao-${this.year}.xlsx`);
+
+        workBook.write(path);
+
+        console.log(`As classificações foram exportadas para o arquivo: ${path}`);
+
     }
 }

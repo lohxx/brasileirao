@@ -20,6 +20,7 @@ export interface Round {
     rodada: number,
     endereco: string,
     timeCasa: string,
+    resultado: string,
     timeVisitante: string
 }
 

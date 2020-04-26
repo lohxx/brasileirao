@@ -47,6 +47,7 @@ export class RodadasCrawler {
         for(const match of matches) {
             const visitantTeam = await match.$eval('div.clearfix > a div.pull-right > img', (team: any) => team?.title);
             const houseTeam = await match.$eval('div.clearfix > a > div.time.pull-left > img', (team: any) => team?.title);
+            const matchResult = await match.$eval('strong.partida-horario > span', (result: any) => result?.innerText);
 
             const [matchAddress, matchDate] = await match.$$eval('span.partida-desc', (spans: any) => {
                 var matchDate = spans[0].innerText;
@@ -63,6 +64,7 @@ export class RodadasCrawler {
                 rodada: roundNumber,
                 timeCasa: houseTeam,
                 endereco: matchAddress,
+                resultado: matchResult || null,
                 timeVisitante: visitantTeam,
             });
         }
