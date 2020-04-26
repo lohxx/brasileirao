@@ -1,16 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "strict": true,
-    "outDir": "dist",
-    "noImplicitReturns": true,
-    "noUnusedParameters": true
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": [
-    "node_modules/",
-    "**/*.spec.ts",
-    "tests/"
-  ]
-}
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "commonjs",
+      "strict": false,
+      "outDir": "dist",
+      "noImplicitReturns": true,
+      "noUnusedParameters": true
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": [
+      "node_modules/",
+      "**/*.spec.ts",
+      "tests/"
+    ]
+  }

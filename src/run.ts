@@ -12,16 +12,17 @@ import { Export } from './export';
 
 
 program
-    .name('brasileirao-api')
+    .name('brasileirao')
     .option('-y, --year <int>', 'Ano em que ocorreu o campeonato', (year) => year, moment().get('year'))
     .option('--extract-rounds', 'Extrai as rodadas')
     .option('--save-csv', 'Salva a saida para um arquivo CSV')
-    .option('--save-json', 'Salvar a saida em um arquivo JSON')
+    .option('--save-json', 'Salva a saida em um arquivo JSON')
+    .option('--save-excel', 'Salva a saida em um arquivo Excel')
     .parse(process.argv);
 
 
 async function init(): Promise<null> {
-    const browser = await puppeteer.launch({headless: false, devtools: true});
+    const browser = await puppeteer.launch({});
 
     const rodadasCrawler = new RodadasCrawler(program.year, browser);
     const classificacaoCrawler = new ClassificacaoCrawler(program.year, browser);
@@ -35,14 +36,24 @@ async function init(): Promise<null> {
         // para o spinner depois que os dados foram retornados
         spinner.stop();
 
-        const exportData = new Export(teamsClassifications, program.year);
+        const exportData = new Export(
+            {
+                'classificacoes': teamsClassifications, 
+                'rodadas': championshipMatches
+            }, 
+            program.year
+        );
 
+        if(program.saveJson) {
+            exportData.saveToJSON();
+        }
+        
         if(program.saveCsv) {
             exportData.saveToCSV();
         }
-
-        else if (program.saveJson) {
-            exportData.saveToJSON();
+        
+        else if(program.saveExcel) {
+            exportData.saveToExcel();
         }
 
         else {
@@ -57,6 +68,7 @@ async function init(): Promise<null> {
         browser.close();
     } catch (error) {
         browser.close();
+        console.error(error);
     }
 
     return null
