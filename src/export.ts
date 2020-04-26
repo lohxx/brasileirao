@@ -54,22 +54,21 @@ export class Export {
      * @param  {object[]} data
      * @param  {any} sheet
      * @param  {string[]} colsTitles
-     * @param  {} style?
      * @returns void
      */
-    insertRows(data: object[], sheet: any, colsTitles: string[], style?): void {
+    insertRows(data: object[], sheet: any, colsTitles: string[]): void {
 
         for(let col in colsTitles) {
-            sheet.cell(1, col+1).string(colsTitles[col]);
+            sheet.cell(1, parseInt(col)+1).string(colsTitles[col]);
         };
 
         let auxIndex = 1;
         for(let index in data) {
             for (let key in data[index]) {
-                sheet.cell(index+2, auxIndex).string(data[index][key]);
+                sheet.cell(parseInt(index)+2, auxIndex).string(data[index][key]);
                 auxIndex += 1;
             }
-            auxIndex = 1;   
+            auxIndex = 1;
         }
     }
 
@@ -85,15 +84,6 @@ export class Export {
 
         this.insertRows(this.data['rodadas'], rodadasSheet, Object.keys(this.data['rodadas'][0]));
         this.insertRows(this.data['classificacoes'], classificacaoSheet, Object.keys(this.data['classificacoes'][0]));
-
-        // classificacaoSheet.cell(18, 1).style(workBook.createStyle({
-        //     fill: {
-        //         type: 'pattern',
-        //         patternType: 'solid',
-        //         bgColor: '#33FF35', // HTML style hex value. defaults to black fgColor: '#33FF35' }
-        //     }
-        // }))
-
         workBook.write(`${this.currentDir}/brasileirao-${this.year}.xlsx`);
     }
 }

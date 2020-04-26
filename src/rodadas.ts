@@ -1,6 +1,6 @@
 import * as puppeteer from 'puppeteer';
 
-import { Round } from '../models/models';
+import { Round } from './models/models';
 
 export class RodadasCrawler {
     url: string;

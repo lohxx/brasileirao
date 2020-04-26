@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { ElementHandle, Browser } from 'puppeteer';
 
-import { ChampionshipData, TeamStatistics, TeamClassification } from '../models/models';
+import { ChampionshipData, TeamStatistics, TeamClassification } from './models/models';
 
 
 export class ClassificacaoCrawler {
