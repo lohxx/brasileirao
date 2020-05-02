@@ -7,7 +7,7 @@
     "brasileirao": "./dist/src/run.js"
   },
   "scripts": {
-    "start": "node ./dist/src/run.js",
+    "start": "tsc && node ./dist/src/run.js",
     "test": "jest"
   },
   "author": "Lohanna",
