@@ -46,8 +46,8 @@ export class ClassificacaoCrawler {
 
         for(const tableRow of tableRows) {
             try {
-                const points: string = await tableRow.$eval('th', (th: any) => th.innerText);
-                const team: string = await tableRow.$eval('td > span:last-child', (td: any) => td.innerText.split('-')[0]);
+                const points = await tableRow.$eval('th', (th: any) => parseInt(th.innerText));
+                const team = await tableRow.$eval('td > span:last-child', (td: any) => td.innerText.split('-')[0]);
                 const statistics = await this.extractStatistics(tableRow);
                 const classificacao: TeamClassification = {time: team.trim(), pontos: points};
                 data.push({...classificacao, ...statistics});
@@ -70,7 +70,7 @@ export class ClassificacaoCrawler {
             const data: Element[] = td.slice(1, infoIndex.length+1);
 
             return data.reduce((statisticTeam: any, statistic: any, index: number) =>  {
-                statisticTeam[infoIndex[index]] = statistic.innerText;
+                statisticTeam[infoIndex[index]] = parseInt(statistic.innerText);
                 return statisticTeam;
             }, {});
         });

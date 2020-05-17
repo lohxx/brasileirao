@@ -57,13 +57,7 @@ async function init(): Promise<null> {
         }
 
         else {
-            console.log('Não foi selecionado nenhuma das opções para exportar os dados, vai ser mostrado no console');
-            console.log()
-            console.log('##### CLASSIFICAÇÕES #####');
-            console.log(teamsClassifications);
-            console.log()
-            console.log('##### RODADAS #####');
-            console.log(championshipMatches);
+           console.table(teamsClassifications);
         }
         browser.close();
     } catch (error) {

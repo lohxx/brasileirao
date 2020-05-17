@@ -44,10 +44,17 @@ export class RodadasCrawler {
 
         const roundNumber = await div?.$eval('header.aside-header > h3', (header: any) => header.innerText.replace(/[^\d]+/, ''));
 
+        let matchResult = null;
+
         for(const match of matches) {
             const visitantTeam = await match.$eval('div.clearfix > a div.pull-right > img', (team: any) => team?.title);
             const houseTeam = await match.$eval('div.clearfix > a > div.time.pull-left > img', (team: any) => team?.title);
-            const matchResult = await match.$eval('strong.partida-horario > span', (result: any) => result?.innerText);
+            
+            try {
+                matchResult = await match.$eval('strong.partida-horario > span', (result: any) => result?.innerText);
+            } catch (error) {
+
+            }
 
             const [matchAddress, matchDate] = await match.$$eval('span.partida-desc', (spans: any) => {
                 var matchDate = spans[0].innerText;

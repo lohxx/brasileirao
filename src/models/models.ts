@@ -1,18 +1,18 @@
 export interface TeamStatistics {
-    sg: string,
-    gp: string,
-    gc: string,
-    ca: string,
-    cv: string,
-    jogos: string,
-    empates: string,
-    vitorias: string,
-    derrotas: string
+    sg: number,
+    gp: number,
+    gc: number,
+    ca: number,
+    cv: number,
+    jogos: number,
+    empates: number,
+    vitorias: number,
+    derrotas: number
 }
 
 export interface TeamClassification {
     time: string,
-    pontos: string
+    pontos: number
 }
 
 export interface Round {
