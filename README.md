@@ -23,4 +23,4 @@ brasileirao --save-csv --year=2015
 brasileirao --save-excel --year=2019
 ```
 
-[exemplo](https://github.com/lohxx/brasileirao/blob/master/cli-screenshot.png)
+![exemplo](https://github.com/lohxx/brasileirao/blob/master/cli-screenshot.png)
