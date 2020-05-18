@@ -3,7 +3,7 @@
       "target": "ES6",
       "module": "commonjs",
       "strict": false,
-      "outDir": "dist",
+      "outDir": "./dist",
       "noImplicitReturns": true,
       "noUnusedParameters": true
     },

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "tsc && node ./dist/src/run.js",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "author": "Lohanna",
   "license": "ISC",
@@ -18,7 +19,7 @@
     "excel4node": "^1.7.2",
     "moment": "^2.24.0",
     "ora": "^4.0.3",
-    "puppeteer": "^2.0.0",
+    "puppeteer": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
