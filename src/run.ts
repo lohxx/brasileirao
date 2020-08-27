@@ -29,7 +29,6 @@ async function init(): Promise<null> {
 
     try {
         const spinner = ora('Extraindo as classificações').start();
-
         const teamsClassifications = await classificacaoCrawler.init();
         const championshipMatches = await rodadasCrawler.init()
 
@@ -44,27 +43,28 @@ async function init(): Promise<null> {
             program.year
         );
 
-        if(program.saveJson) {
-            exportData.saveToJSON();
-        }
-        
-        if(program.saveCsv) {
-            exportData.saveToCSV();
-        }
-        
-        else if(program.saveExcel) {
-            exportData.saveToExcel();
-        }
+        console.table(teamsClassifications);
 
-        else {
-           console.table(teamsClassifications);
-        }
+        // if(program.saveJson) {
+        //     exportData.saveToJSON();
+        // }
+        
+        // if(program.saveCsv) {
+        //     exportData.saveToCSV();
+        // }
+        
+        // else if(program.saveExcel) {
+        //     exportData.saveToExcel();
+        // }
+
+        // else {
+        //    console.table(teamsClassifications);
+        // }
         browser.close();
     } catch (error) {
         browser.close();
         console.error(error);
     }
-
     return null
 }
 

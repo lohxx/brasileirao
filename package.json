@@ -4,10 +4,10 @@
   "description": "A api que extrai a classificação do campeonato brasileiro",
   "main": "index.js",
   "bin": {
-    "brasileirao": "./dist/src/run.js"
+    "brasileirao": "./dist/run.js"
   },
   "scripts": {
-    "start": "tsc && node ./dist/src/run.js",
+    "start": "node ./dist/run.js",
     "test": "jest",
     "build": "tsc"
   },

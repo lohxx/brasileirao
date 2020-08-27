@@ -6,24 +6,24 @@ import { ChampionshipData, TeamStatistics, TeamClassification } from './models/m
 
 export class ClassificacaoCrawler {
     site: string;
-    tableRowsSelector = `table.m-b-20 > tbody > tr`;
-    
+
     constructor(private year: number, private browser: Browser) {
         this.site = `https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/${this.year}`;
-        this.chooseRowSelector();
     }
 
-    chooseRowSelector(): void {
+    get tableRowsSelector(): string {
         const now = moment();
 
         if (this.year != now.get('year')) {
-            this.tableRowsSelector = `table.m-b-20.tabela-expandir > tbody > tr`;
+            return `table.m-b-20.tabela-expandir > tbody > tr`;
         }
+
+        return `table.m-b-20 > tbody > tr`;
     }
 
     /**
      * Inicializa a extração do site da CBF
-     * @returns Promise
+     * @returns Promise<ChampionshipData>
      */
     async init(): Promise<ChampionshipData> {;
         const page = await this.browser.newPage();
@@ -34,12 +34,12 @@ export class ClassificacaoCrawler {
 
         return championshipData;
     }
-    
+
     /**
      * Extrai e junta as informações de cada time participante
      * do campeonato brasileiro.
      * @param  {ElementHandle[]} tableRows
-     * @returns Promise
+     * @returns Promise<ChampionshipData>
      */
     async extractClassifications(tableRows: ElementHandle[]): Promise<ChampionshipData> {
         const data: ChampionshipData = [];
@@ -62,7 +62,7 @@ export class ClassificacaoCrawler {
     /**
      * Extrai as estatisticas de cada time participando do brasileirão.
      * @param  {ElementHandle} tableRow
-     * @returns Promise
+     * @returns Promise<TeamStatistics>
      */
     async extractStatistics(tableRow: ElementHandle): Promise<TeamStatistics> {
         const statistics = await tableRow.$$eval('td', td => {
