@@ -43,23 +43,21 @@ async function init(): Promise<null> {
             program.year
         );
 
-        console.table(teamsClassifications);
-
-        // if(program.saveJson) {
-        //     exportData.saveToJSON();
-        // }
+        if(program.saveJson) {
+            exportData.saveToJSON();
+        }
         
-        // if(program.saveCsv) {
-        //     exportData.saveToCSV();
-        // }
+        if(program.saveCsv) {
+            exportData.saveToCSV();
+        }
         
-        // else if(program.saveExcel) {
-        //     exportData.saveToExcel();
-        // }
+        else if(program.saveExcel) {
+            exportData.saveToExcel();
+        }
 
-        // else {
-        //    console.table(teamsClassifications);
-        // }
+        else {
+           console.table(teamsClassifications);
+        }
         browser.close();
     } catch (error) {
         browser.close();
