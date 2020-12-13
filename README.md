@@ -1,9 +1,13 @@
 # brasileirao
-Api que extrai dados sobre a classificação dos clubes que disputam a serie A do brasileirão do site da CBF.
+Api que extrai dados sobre a classificação dos clubes que disputam a serie A do brasileirão do site da CBF. É necessario ter o typescript instalado para buildar o projeto.
+
+
 
 ## Como instalar
 - Clone esse repositorio
 - Dentro do diretorio criado com o clone desse repositorio, rode o comando: `npm install .`
+- Para buildar o projeto é necessario rodar o comando `tsc` na raiz do projeto.
+https://www.typescriptlang.org/docs/handbook/compiler-options.html
 
 ## Como usar
 
