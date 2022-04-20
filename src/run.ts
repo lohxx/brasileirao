@@ -22,7 +22,12 @@ program
 
 
 async function init(): Promise<null> {
-    const browser = await puppeteer.launch({headless: true});
+    const browser = await puppeteer.launch({headless: true, args: [
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+    ]});
 
     const rodadasCrawler = new RodadasCrawler(program.year, browser);
     const classificacaoCrawler = new ClassificacaoCrawler(program.year, browser);
