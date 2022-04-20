@@ -9,6 +9,12 @@ Api que extrai dados sobre a classificação dos clubes que disputam a serie A d
 - Para buildar o projeto é necessario rodar o comando `tsc` na raiz do projeto.
 https://www.typescriptlang.org/docs/handbook/compiler-options.html
 
+## Como instalar e usar com o docker
+
+- Clone esse repositorio
+- Dentro do repositorio criado, rode o comando: `docker build -t brasileirao .`
+- Rode a imagem com o comando:  `docker run brasileirao`
+
 ## Como usar
 
 ```bash
