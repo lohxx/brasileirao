@@ -22,7 +22,7 @@ program
 
 
 async function init(): Promise<null> {
-    const browser = await puppeteer.launch({});
+    const browser = await puppeteer.launch({headless: true});
 
     const rodadasCrawler = new RodadasCrawler(program.year, browser);
     const classificacaoCrawler = new ClassificacaoCrawler(program.year, browser);
