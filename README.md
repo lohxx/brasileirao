@@ -17,7 +17,11 @@ https://www.typescriptlang.org/docs/handbook/compiler-options.html
 
 ## Como usar
 
+Para extrair o campeonato atual rode o comando: npm run start
+
 ```bash
+npm run start --help
+
 Usage: brasileirao [options]
 
 Options:
